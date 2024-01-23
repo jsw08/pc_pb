@@ -1,7 +1,10 @@
 <script lang="ts">
+    import PowerMangager from "./components/power_mangager.svelte";
 
 </script>
 
-<main class="w-full h-full p-4">
+<PowerMangager/>
 
-</main>
+<!-- <main class="w-full h-full p-4">
+
+</main> -->
