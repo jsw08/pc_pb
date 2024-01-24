@@ -1,29 +1,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import PowerButton from "./power_button.svelte";
+    import type {Ntfy, State} from '../types'
     export let ntfyUrl: string = "https://ntfy.sh/example_pcpower_url";
 
-    type ntfy = {
-        id: string;
-        time: number;
-        expires: number;
-        event: "open" | "keepalive" | "message" | "poll_request";
-        topic: string;
-        message?: string;
-        title?: string;
-        tags?: string[];
-        click?: string;
-        actions?: any[];
-        attachment?: {
-            name: string;
-            url: string;
-            type?: string;
-            size?: number;
-            expires?: number;
-        };
-    };
 
     let ntfyEvents: EventSource;
-    let state: "on" | "off" | "loading" | "error" = "loading";
+    let state: State = "loading";
 
     function handleError(this: EventSource, e: Event): void {
         state = "error";
@@ -31,7 +14,7 @@
         console.error(`Something went wrong while listening for events, ${e}`);
     }
     function handleMessages(this: EventSource, message: MessageEvent): void {
-        const msg: ntfy = JSON.parse(message.data);
+        const msg: Ntfy = JSON.parse(message.data);
         if (!msg.message || msg.message.split(" ")[0] !== "res" ||!msg.tags || !msg.tags.includes("mcu")) return;
 
             console.log("res s")
@@ -75,4 +58,5 @@
     });
 </script>
 
-{state}
+<PowerButton on:click={() => sendMsg("p", ntfyUrl)} {state}/>
+
