@@ -6,19 +6,18 @@
 <button
     on:click
     class="
-        rounded-xl
         shadow-2xl
         active:shadow-sm
-        
+
         h-20
         aspect-square
-
         btn
     "
     class:btn-success={state === "on"}
     class:btn-error={state === "off"}
     class:btn-warning={state === "error"}
 >
+    {state}
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
