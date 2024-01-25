@@ -2,6 +2,8 @@
     import { onMount } from "svelte";
     import PowerButton from "./power_button.svelte";
     import type {Ntfy, State} from '../types'
+
+    export let title: string = "A Wild PC"
     export let ntfyUrl: string = "https://ntfy.sh/example_pcpower_url";
 
 
@@ -15,12 +17,11 @@
     }
     function handleMessages(this: EventSource, message: MessageEvent): void {
         const msg: Ntfy = JSON.parse(message.data);
-        if (!msg.message || msg.message.split(" ")[0] !== "res" ||!msg.tags || !msg.tags.includes("mcu")) return;
+        if (!msg.message || !msg.tags || !msg.tags.includes("res")) return;
+        console.info("Message RES: ", msg.message)
 
-            console.log("res s")
-        if (msg.message.includes("res s")) {
-            console.log("res s")
-            state = msg.message === "res s 1" ? "on" : "off"
+        if (msg.message.includes("s")) {
+            state = msg.message === "s 1" ? "on" : "off"
         }
     }
     function handleOpen(this: EventSource, e: Event): void {
@@ -31,7 +32,7 @@
     const sendMsg = (
         msg: string,
         ntfyUrl: string,
-        tags: string[] = ["remote"],
+        tags: string[] = ["req"],
     ): void => {
         fetch(ntfyUrl, {
             method: "POST",
@@ -40,8 +41,8 @@
                 Tags: tags.toString(),
             },
         }).catch((e) => {
-            console.error(`Something went wrong while sending a message. ${e}`);
             state = "error";
+            console.error(`Something went wrong while sending a message. ${e}`);
         });
     };
     const setupEvents = (ntfyUrl: string): EventSource => {
