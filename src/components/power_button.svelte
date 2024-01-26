@@ -1,27 +1,41 @@
 <script lang="ts">
     import type { State } from "../types";
     export let state: State;
+
+    const colors = {
+        on: "su",
+        off: "er",
+        loading: "b1",
+        error: "wa",
+    }
 </script>
 
 <button
     on:click
     class="
-        shadow-2xl
+        shadow-lg
         active:shadow-sm
 
-        h-20
-        aspect-square
+        border-b-4
+        active:border-b-0
+
+        w-full
+        h-full
         btn
+        btn-square
+
+        flex
+        flex-col
     "
-    class:btn-success={state === "on"}
-    class:btn-error={state === "off"}
-    class:btn-warning={state === "error"}
+    style:background-color={`oklch(var(--${colors[state]}))`}
+    style:color={`oklch(var(--${colors[state]}c))`}
+    style:border-bottom-color={`color-mix(in srgb, oklch(var(--${colors[state]})) 75%, black)`}
 >
     {state}
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="32"
-        height="32"
+        width="48"
+        height="48"
         viewBox="0 0 512 512"
         ><path
             fill="currentColor"
