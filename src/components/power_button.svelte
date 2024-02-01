@@ -32,6 +32,7 @@
     style:border-bottom-color={`color-mix(in srgb, oklch(var(--${colors[state]})) 75%, black)`}
 >
     {state}
+
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="48"

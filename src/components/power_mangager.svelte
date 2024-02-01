@@ -9,10 +9,12 @@
   let ntfyEvents: EventSource;
   let state: State = "loading";
 
+  
   function handleError(this: EventSource, e: Event): void {
+    const err: string = JSON.stringify(e)
     state = "error";
     this.close();
-    console.error(`Something went wrong while listening for events, ${e}`);
+    console.error(`Something went wrong while listening for events, ${err}`);
   }
   function handleMessages(this: EventSource, message: MessageEvent): void {
     const msg: Ntfy = JSON.parse(message.data);
@@ -28,6 +30,14 @@
     sendMsg("s", ntfyUrl);
   }
 
+  const handleButton = (): void => {
+    if (state === "error") {
+      ntfyEvents = setupEvents(ntfyUrl);
+      return
+    }
+
+    sendMsg("p", ntfyUrl)
+  };
   const sendMsg = (
     msg: string,
     ntfyUrl: string,
@@ -40,8 +50,9 @@
         Tags: tags.toString(),
       },
     }).catch((e) => {
+      const err: string = JSON.stringify(e)
       state = "error";
-      console.error(`Something went wrong while sending a message. ${e}`);
+      console.error(`Something went wrong while sending a message. ${err}`);
     });
   };
   const setupEvents = (ntfyUrl: string): EventSource => {
@@ -64,7 +75,7 @@
       {title}
     </h2>
     <div class="card-actions flex-grow justify-center items-center">
-      <PowerButton on:click={() => sendMsg("p", ntfyUrl)} {state} />
+      <PowerButton on:click={handleButton} {state} />
     </div>
   </div>
 </div>
