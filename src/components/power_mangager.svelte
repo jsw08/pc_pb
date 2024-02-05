@@ -69,13 +69,4 @@
   });
 </script>
 
-<div class="card w-52 m-4 aspect-square bg-base-200 shadow-sm ">
-  <div class="card-body flex flex-col p-5">
-    <h2 class="card-title overflow-scroll whitespace-nowrap w-full">
-      {title}
-    </h2>
-    <div class="card-actions flex-grow justify-center items-center">
-      <PowerButton on:click={handleButton} {state} />
-    </div>
-  </div>
-</div>
+<PowerButton on:click={handleButton} {state} />
