@@ -3,7 +3,6 @@
   import PowerButton from "./power_button.svelte";
   import type { Ntfy, State } from "../types";
 
-  export let title: string = "A Wild PC";
   export let ntfyUrl: string = "https://ntfy.sh/example_pcpower_url";
 
   let ntfyEvents: EventSource;

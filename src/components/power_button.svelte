@@ -22,8 +22,19 @@
         border-b-4
         active:border-b-0
 
-        w-32
-        h-32
+        w-48
+        md:w-64
+        lg:w-80
+        xl:w-96
+
+        text-2xl
+        md:text-4xl
+        lg:text-5xl
+        xl:text-6xl
+
+        h-auto
+        aspect-square
+
         btn
         btn-square
 
@@ -35,12 +46,10 @@
         style:border-bottom-color={`color-mix(in srgb, oklch(var(--${colors[state]})) 75%, black)`}
         disabled={state === "loading"}
     >
-        {state}
         {#if state === "error"}
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={iSize}
-                height={iSize}
+                style="width: 3em; height: 3em;"
                 viewBox="0 0 24 24"
                 ><path
                     d="M12.884 2.532c-.346-.654-1.422-.654-1.768 0l-9 17A.999.999 0 0 0 3 21h18a.998.998 0 0 0 .883-1.467L12.884 2.532zM13 18h-2v-2h2v2zm-2-4V9h2l.001 5H11z"
@@ -50,8 +59,7 @@
         {:else if state === "loading"}
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={iSize}
-                height={iSize}
+                style="width: 3em; height: 3em;"
                 viewBox="0 0 24 24"
                 ><circle cx="18" cy="12" r="0" fill="currentColor"
                     ><animate
@@ -88,8 +96,7 @@
         {:else}
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={iSize}
-                height={iSize}
+                style="width: 3em; height: 3em;"
                 viewBox="0 0 512 512"
                 ><path
                     fill="currentColor"
