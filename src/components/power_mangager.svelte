@@ -3,12 +3,11 @@
   import PowerButton from "./power_button.svelte";
   import type { Ntfy, State } from "../types";
 
-  export let ntfyUrl: string = "https://ntfy.sh/example_pcpower_url";
+  export let url: string = "https://ntfy.sh/example_pcpower_url";
 
   let ntfyEvents: EventSource;
   let state: State = "loading";
 
-  
   function handleError(this: EventSource, e: Event): void {
     const err: string = JSON.stringify(e)
     state = "error";
@@ -26,23 +25,23 @@
   }
   function handleOpen(this: EventSource, e: Event): void {
     state = "loading";
-    sendMsg("s", ntfyUrl);
+    sendMsg("s", url);
   }
 
   const handleButton = (): void => {
     if (state === "error") {
-      ntfyEvents = setupEvents(ntfyUrl);
+      ntfyEvents = setupEvents(url);
       return
     }
 
-    sendMsg("p", ntfyUrl)
+    sendMsg("p", url)
   };
   const sendMsg = (
     msg: string,
-    ntfyUrl: string,
+    url: string,
     tags: string[] = ["req"]
   ): void => {
-    fetch(ntfyUrl, {
+    fetch(url, {
       method: "POST",
       body: msg,
       headers: {
@@ -54,8 +53,8 @@
       console.error(`Something went wrong while sending a message. ${err}`);
     });
   };
-  const setupEvents = (ntfyUrl: string): EventSource => {
-    const events: EventSource = new EventSource(ntfyUrl + "/sse");
+  const setupEvents = (url: string): EventSource => {
+    const events: EventSource = new EventSource(url + "/sse");
 
     events.addEventListener("error", handleError);
     events.addEventListener("message", handleMessages);
@@ -64,7 +63,7 @@
     return events;
   };
   onMount(() => {
-    ntfyEvents = setupEvents(ntfyUrl);
+    ntfyEvents = setupEvents(url);
   });
 </script>
 
