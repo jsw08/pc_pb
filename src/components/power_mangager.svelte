@@ -4,9 +4,10 @@
   import type { Ntfy, State } from "../types";
 
   export let url: string = "https://ntfy.sh/example_pcpower_url";
+  export const reload = handleOpen;
 
   let ntfyEvents: EventSource;
-  let state: State = "loading";
+  let state: State = "loading"
 
   function handleError(this: EventSource, e: Event): void {
     const err: string = JSON.stringify(e)
@@ -23,7 +24,7 @@
       state = msg.message === "s 1" ? "on" : "off";
     }
   }
-  function handleOpen(this: EventSource, e: Event): void {
+  function handleOpen(): void {
     state = "loading";
     sendMsg("s", url);
   }
