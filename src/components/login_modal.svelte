@@ -1,7 +1,7 @@
 <script lang="ts">
   import { url } from "../store";
 
-  let value: string;
+  let value: string = "https://ntfy.sh/";
   const submitUrl = (): void => {$url = value}
 </script>
 
