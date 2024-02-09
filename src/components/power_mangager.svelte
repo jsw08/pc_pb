@@ -5,6 +5,7 @@
 
   export let url: string = "https://ntfy.sh/example_pcpower_url";
   export const reload = handleOpen;
+  export const press = handleButton;
 
   let ntfyEvents: EventSource;
   let state: State = "loading"
@@ -28,20 +29,19 @@
     state = "loading";
     sendMsg("s", url);
   }
-
-  const handleButton = (): void => {
+  function handleButton(): void {
     if (state === "error") {
       ntfyEvents = setupEvents(url);
       return
-    }
+    } else if (state === "loading") return
 
     sendMsg("p", url)
   };
-  const sendMsg = (
+  function sendMsg (
     msg: string,
     url: string,
     tags: string[] = ["req"]
-  ): void => {
+  ): void {
     fetch(url, {
       method: "POST",
       body: msg,
@@ -54,7 +54,8 @@
       console.error(`Something went wrong while sending a message. ${err}`);
     });
   };
-  const setupEvents = (url: string): EventSource => {
+
+  function setupEvents (url: string): EventSource {
     const events: EventSource = new EventSource(url + "/sse");
 
     events.addEventListener("error", handleError);

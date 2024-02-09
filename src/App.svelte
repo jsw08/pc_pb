@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { url } from "./store";
+  import { funMode, url } from "./store";
   import LoginModal from "./components/login_modal.svelte";
   import PowerMangager from "./components/power_mangager.svelte";
   import StatusButtons from "./components/status_buttons.svelte";
@@ -9,8 +9,12 @@
   let pm: PowerMangager;
 
   onMount(() => {
-    reload = pm.reload;
-  })
+    if ($url) reload = pm.reload;
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.code === "Space") $funMode = !$funMode;
+      else if (e.code === "Space" && $url) pm.press();
+    });
+  });
 </script>
 
 <main
@@ -19,7 +23,7 @@
   {#if $url === ""}
     <LoginModal />
   {:else}
-    <PowerMangager bind:this={pm} url={$url}/>
-    <StatusButtons on:reload={reload}/>
+    <PowerMangager bind:this={pm} url={$url} />
+    <StatusButtons on:reload={reload} />
   {/if}
 </main>
